@@ -1,4 +1,4 @@
-`bleach_extras` is a package of utilities paired for use with the `bleach` library.
+`bleach_extras` is a package of *unofficial* "extras" and utilities paired for use with the `bleach` library.
 
 The first utility is `TagTreeFilter` which is utilized by `clean_strip_content` and `cleaner_factory__strip_content`.
 
@@ -49,13 +49,10 @@ Parsing/Tokenzing HTML is not very efficient. Performing this outside of `bleach
 
 Example::
 
-	import bleach
-	import bleach_extras
-
 	dangerous = """foo.<div>1<script>alert("ur komputer hs VIRUS! Giv me ur BITCOIN in 24 hours! Wallet is: abdefg!");</script>2</div>.bar"""
 
 	print(bleach.clean(dangerous, tags=['div', ], strip=False))
-	# foo.<div>1&lt;script&gt;alert("ur komputer hs VIRUS! Giv me ur BITCOIN in 24 hours! Wallet is: abdefg");&lt;/script&gt;2</div>.bar
+	# foo.<div>1&lt;script&gt;alert("ur komputer hs VIRUS! Giv me ur BITCOIN in 24 hours! Wallet is: abdefg!");&lt;/script&gt;2</div>.bar
 
 	print(bleach.clean(dangerous, tags=['div', ], strip=True))
 	# foo.<div>1alert("ur komputer hs VIRUS! Giv me ur BITCOIN in 24 hours! Wallet is: abdefg!");2</div>.bar
@@ -66,3 +63,20 @@ Example::
 	cleaner = bleach_extras.cleaner_factory__strip_content(tags=['div'],)
 	print(cleaner.clean(dangerous))
 	# foo.<div>12</div>.bar
+
+	print(bleach_extras.clean_strip_content(dangerous, tags=['div', ], strip=True, ))
+	# foo.<div>12</div>.bar
+
+## custom replacement of stripped nodes
+
+maybe you need to replace the evil content with a warning. this library has you covered!
+
+	dangerous2 = """foo.<div>1<script>alert("ur komputer hs VIRUS! Giv me ur BITCOIN in 24 hours! Wallet is: abdefg!");<iframe>iiffrraammee</iframe></script>2</div>.bar"""
+
+	class IFrameFilter2(bleach_extras.TagTreeFilter):
+		tags_strip_content = ('script', 'style', 'iframe')
+		tag_replace_string = "&lt;unsafe/&gt;"
+
+	print bleach_extras.clean_strip_content(dangerous2, tags=['div', ], filters=[IFrameFilter2, ])
+	# foo.<div>1&amp;lt;unsafe/&amp;gt;2</div>.bar
+

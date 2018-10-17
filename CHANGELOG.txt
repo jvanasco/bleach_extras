@@ -1,2 +1,5 @@
-2018.10.17
+0.0.2 | 2018.10.17
+	adjusting the API
+
+0.0.1 | 2018.10.17
 	initial import
