@@ -21,7 +21,7 @@ class FilterTagTreeFilter_iFrame(TagTreeFilter):
     tags_strip_content = ['iframe', ]
 
 class FilterTagTreeFilter_Unsafe(TagTreeFilter):
-    tag_replace_string = "&lt;unsafe/&gt;"
+    tag_replace_string = "&lt;unsafe garbage/&gt;"
 
 
 # ==============================================================================
@@ -156,6 +156,46 @@ def test_strip_tags():
             cleaner_factory__strip_content(tags=['div', ], filters=[FilterTagTreeFilter_SCRIPT, ], strip=True).clean(_input_2_b) ==
             'foo.<div>bar.</div>'
             )
+
+
+def test_tag_replace():
+
+    # this is flat
+    _input_1 = 'foo.<div>bar.<script type="text/javascript">alert(1);</script>bar2.<script>alert(2);</script>bar3.<style>.body{}</style>bar4.<style tyle="text/css">.body{}</style>bar5.</div>biz'
+
+    assert (clean_strip_content(_input_1, tags=['div', ]) ==
+            cleaner_factory__strip_content(tags=['div', ], ).clean(_input_1) ==
+            'foo.<div>bar.bar2.bar3.bar4.bar5.</div>biz'
+            )
+
+    assert (clean_strip_content(_input_1, tags=['div', ], filters=[FilterTagTreeFilter_Unsafe]) ==
+            cleaner_factory__strip_content(tags=['div', ], filters=[FilterTagTreeFilter_Unsafe, ]).clean(_input_1) ==
+            'foo.<div>bar.&amp;lt;unsafe garbage/&amp;gt;bar2.&amp;lt;unsafe garbage/&amp;gt;bar3.&amp;lt;unsafe garbage/&amp;gt;bar4.&amp;lt;unsafe garbage/&amp;gt;bar5.</div>biz'
+            )
+
+    assert (clean_strip_content(_input_1, tags=['div', ], filters=[FilterTagTreeFilter_Unsafe], strip=True) ==
+            cleaner_factory__strip_content(tags=['div', ], filters=[FilterTagTreeFilter_Unsafe, ], strip=True).clean(_input_1) ==
+            'foo.<div>bar.&amp;lt;unsafe garbage/&amp;gt;bar2.&amp;lt;unsafe garbage/&amp;gt;bar3.&amp;lt;unsafe garbage/&amp;gt;bar4.&amp;lt;unsafe garbage/&amp;gt;bar5.</div>biz'
+            )
+
+    # this is nested
+    _input_2 = 'foo.<div>bar.<script type="text/javascript">alert(1);<div>alpha.<style><div>beta.</style></div></script>bang.</div>biz'
+
+    assert (clean_strip_content(_input_2, tags=['div', ]) ==
+            cleaner_factory__strip_content(tags=['div', ], ).clean(_input_2) ==
+            'foo.<div>bar.bang.</div>biz'
+            )
+
+    assert (clean_strip_content(_input_2, tags=['div', ], filters=[FilterTagTreeFilter_Unsafe]) ==
+            cleaner_factory__strip_content(tags=['div', ], filters=[FilterTagTreeFilter_Unsafe, ]).clean(_input_2) ==
+            'foo.<div>bar.&amp;lt;unsafe garbage/&amp;gt;bang.</div>biz'
+            )
+
+    assert (clean_strip_content(_input_2, tags=['div', ], filters=[FilterTagTreeFilter_Unsafe], strip=True) ==
+            cleaner_factory__strip_content(tags=['div', ], filters=[FilterTagTreeFilter_Unsafe, ], strip=True).clean(_input_2) ==
+            'foo.<div>bar.&amp;lt;unsafe garbage/&amp;gt;bang.</div>biz'
+            )
+
 
 
 def test_invalid():

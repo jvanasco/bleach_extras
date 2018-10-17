@@ -46,7 +46,7 @@ Parsing/Tokenzing HTML is not very efficient. Performing this outside of `bleach
 `bleach`'s design implementation encodes/strips 'unsafe' tags during the parsing/tokening process - before the plugin filtering process starts. In order to filter the tags out correctly, they must be allowed during the generation of the dom tree, then removed during the filter step. This trips a lot of people up; offering this in a public library with tests that can grow is ideal.
 
 
-Example::
+Example:
 
 	dangerous = """foo.<div>1<script>alert("ur komputer hs VIRUS! Giv me ur BITCOIN in 24 hours! Wallet is: abdefg!");</script>2</div>.bar"""
 
@@ -68,7 +68,7 @@ Example::
 
 ## custom replacement of stripped nodes
 
-maybe you need to replace the evil content with a warning. this library has you covered!
+maybe you need to replace the evil content with a warning. this "extra" has you covered!
 
 	dangerous2 = """foo.<div>1<script>alert("ur komputer hs VIRUS! Giv me ur BITCOIN in 24 hours! Wallet is: abdefg!");<iframe>iiffrraammee</iframe></script>2</div>.bar"""
 
