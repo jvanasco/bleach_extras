@@ -1,8 +1,20 @@
 from bleach_extras import clean_strip_content
 from bleach_extras import TagTreeFilter
+from bleach_extras import cleaner_factory__strip_content
+from bleach_extras import TAG_TREE_TAGS
+from bleach.sanitizer import Cleaner
 
 
 # ==============================================================================
+
+
+def test_factory():
+    factory = cleaner_factory__strip_content()
+    assert isinstance(factory, Cleaner)
+    for tag in TAG_TREE_TAGS:
+        assert tag in factory.tags
+    assert TagTreeFilter in factory.filters
+    assert len(factory.filters) == 1
 
 
 def test_interface_options():
