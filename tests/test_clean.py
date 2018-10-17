@@ -202,13 +202,13 @@ def test_invalid():
     try:
         cleaner = cleaner_factory__strip_content(filters=[])
         raise RuntimeError('The command above should raise a ValueError')
-    except ValueError, e:
+    except ValueError as e:
         # expects ValueError: You must submit `TagTreeFilter` or a subclass as `filters`.
         pass
 
     try:
         cleaner = cleaner_factory__strip_content(filters=[str, ])
         raise RuntimeError('The command above raise a ValueError')
-    except ValueError, e:
+    except ValueError as e:
         # expects ValueError: You must submit `TagTreeFilter` or a subclass as `filters`.
         pass
