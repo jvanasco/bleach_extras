@@ -1,4 +1,6 @@
+import codecs
 import os
+import re
 from setuptools import setup
 from setuptools import find_packages
 
@@ -14,11 +16,17 @@ install_requires = [
     'bleach',
 ]
 
+def get_version():
+    fn = os.path.join('bleach_extras', '__init__.py')
+    vsre = r"""^__version__ = ['"]([^'"]*)['"]"""
+    version_file = codecs.open(fn, mode='r', encoding='utf-8').read()
+    return re.search(vsre, version_file, re.M).group(1)
+
 setup(
     name='bleach_extras',
+    version=get_version(),
     author='Jonathan Vanasco',
     author_email='jonathan@findmeon.com',
-    version='0.0.2',
     url='http://github.com/jvanasco/bleach_extras',
     license='MIT License',
     description='some extensions for bleach',
