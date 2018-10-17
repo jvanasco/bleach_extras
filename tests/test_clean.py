@@ -156,3 +156,19 @@ def test_strip_tags():
             cleaner_factory__strip_content(tags=['div', ], filters=[FilterTagTreeFilter_SCRIPT, ], strip=True).clean(_input_2_b) ==
             'foo.<div>bar.</div>'
             )
+
+
+def test_invalid():
+    try:
+        cleaner = cleaner_factory__strip_content(filters=[])
+        raise RuntimeError('The command above should raise a ValueError')
+    except ValueError, e:
+        # expects ValueError: You must submit `TagTreeFilter` or a subclass as `filters`.
+        pass
+
+    try:
+        cleaner = cleaner_factory__strip_content(filters=[str, ])
+        raise RuntimeError('The command above raise a ValueError')
+    except ValueError, e:
+        # expects ValueError: You must submit `TagTreeFilter` or a subclass as `filters`.
+        pass

@@ -4,9 +4,9 @@ The first utility is `TagTreeFilter` which is utilized by `clean_strip_content` 
 
 # `TagTreeFilter`, `clean_strip_content`, `cleaner_factory__strip_content`
 
-`clean_strip_content` is paired to `bleach.clean`, and the only intended difference
-is to support the concept of stripping the content of tags, and not just the
-tag itself.  `cleaner_factory__strip_content` is a factory function used to create
+`clean_strip_content` is paired to `bleach.clean`; the only intended difference
+is to support the concept of stripping the content tree of tags -- not just the
+tag node itself.  `cleaner_factory__strip_content` is a factory function used to create
 configured `bleach.Cleaner` instances.
 
 `bleach` has a `strip` flag that toggles the behavior of "unsafe" tags:
@@ -21,8 +21,7 @@ configured `bleach.Cleaner` instances.
 	- foo.<div>1<script>alert("ur komputer hs VIRUS! Giv me ur BITCOIN in 24 hours! Wallet is: abdefg!");</script>2</div>.bar
 	+ foo.<div>1alert("ur komputer hs VIRUS! Giv me ur BITCOIN in 24 hours! Wallet is: abdefg!");2</div>.bar
 
-Many users of `bleach` want to remove both the tag and contents of unsafe tags for
-a variety of reasons, such as:
+Many users of `bleach` want to remove both the tag and contents of unsafe tags for a variety of reasons, such as:
 
 * escaping the tags make the text safe, but unreadable
 * leaving the tags' content without the tags negatively affects readability and comprehension
@@ -75,8 +74,8 @@ maybe you need to replace the evil content with a warning. this library has you 
 
 	class IFrameFilter2(bleach_extras.TagTreeFilter):
 		tags_strip_content = ('script', 'style', 'iframe')
-		tag_replace_string = "&lt;unsafe/&gt;"
+		tag_replace_string = "&lt;unsafe garbage/&gt;"
 
 	print bleach_extras.clean_strip_content(dangerous2, tags=['div', ], filters=[IFrameFilter2, ])
-	# foo.<div>1&amp;lt;unsafe/&amp;gt;2</div>.bar
+	# foo.<div>1&amp;lt;unsafe garbage/&amp;gt;2</div>.bar
 

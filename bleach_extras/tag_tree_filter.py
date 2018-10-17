@@ -149,15 +149,17 @@ def cleaner_factory__strip_content(
     # ensure we apply the `TagTreeFilter` defined above
     if filters is None:
         filters = [TagTreeFilter, ]
-    else:
-        if not any([isinstance(f, TagTreeFilter) or issubclass(f, TagTreeFilter) for f in filters]):
-            raise ValueError("You must submit `TagTreeFilter` or a subclass as `filters`.")
-    # then adjust the tags_strip_content
+    # then adjust the tags based on the `tags_strip_content` of subclasses
+    _has_approved_filter = False
     for f in filters:
-        for t in f.tags_strip_content:
-            t = t.lower()  # handle this as lowercase
-            if t not in tags:
-                tags.append(t)
+        if isinstance(f, TagTreeFilter) or issubclass(f, TagTreeFilter):
+            _has_approved_filter = True
+            for t in f.tags_strip_content:
+                t = t.lower()  # handle this as lowercase
+                if t not in tags:
+                    tags.append(t)
+    if not _has_approved_filter:
+        raise ValueError("You must submit `TagTreeFilter` or a subclass as `filters`.")
     cleaner = Cleaner(
         tags=tags,
         attributes=attributes,
