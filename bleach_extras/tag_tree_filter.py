@@ -1,4 +1,5 @@
-from bleach.html5lib_shim import Filter
+import html5lib
+from html5lib.filters.base import Filter
 from bleach.sanitizer import (
     ALLOWED_ATTRIBUTES,
     ALLOWED_PROTOCOLS,
@@ -118,7 +119,7 @@ def clean_strip_content(
 
            Using filters changes the output of ``bleach.Cleaner.clean``.
            Make sure the way the filters change the output are secure.
-    
+
     To adjust the tags to strip, submit subclasses of ``TagTreeFilter`` to ``filters``.
 
     :returns: cleaned text as unicode
