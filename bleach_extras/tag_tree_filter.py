@@ -118,7 +118,7 @@ def clean_strip_content(
 
            Using filters changes the output of ``bleach.Cleaner.clean``.
            Make sure the way the filters change the output are secure.
-    
+
     To adjust the tags to strip, submit subclasses of ``TagTreeFilter`` to ``filters``.
 
     :returns: cleaned text as unicode
