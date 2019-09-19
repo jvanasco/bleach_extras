@@ -1,3 +1,6 @@
+0.0.4rc | unreleased
+	black formatting
+
 0.0.3 | 2019.04.24
 	packaging fix: adding python3 classifier
 

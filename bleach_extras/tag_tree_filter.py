@@ -12,7 +12,7 @@ from six import text_type
 # ==============================================================================
 
 
-TAG_TREE_TAGS = ('script', 'style', )
+TAG_TREE_TAGS = ("script", "style")
 
 
 class TagTreeFilter(Filter):
@@ -32,7 +32,7 @@ class TagTreeFilter(Filter):
 
     """if defined in a subclass, a string to replace the content with."""
     tag_replace_string = None
-    _tag_replace = None   # memoized on __init__
+    _tag_replace = None  # memoized on __init__
 
     def __init__(self, source):
         """
@@ -44,36 +44,42 @@ class TagTreeFilter(Filter):
         :arg Treewalker source: stream
         """
         if not self.tags_strip_content:
-            raise ValueError('must have `tags_strip_content` on the class')
+            raise ValueError("must have `tags_strip_content` on the class")
         self._tags_strip_content = [t.lower() for t in self.tags_strip_content]
         if self.tag_replace_string is not None:
-            self._tag_replace = {'data': text_type(self.tag_replace_string),
-                                 'type': 'Characters',
-                                 }
+            self._tag_replace = {
+                "data": text_type(self.tag_replace_string),
+                "type": "Characters",
+            }
         self._in_strip_content = 0
         return super(TagTreeFilter, self).__init__(source)
 
     def __iter__(self):
         for token in Filter.__iter__(self):
-            _name = token.get('name', '').lower()
+            _name = token.get("name", "").lower()
             if _name in self._tags_strip_content:
-                if token.get('type') == 'StartTag':
+                if token.get("type") == "StartTag":
                     self._in_strip_content += 1
-                elif token.get('type') == 'EndTag':
+                elif token.get("type") == "EndTag":
                     self._in_strip_content -= 1
                 continue
             if self._in_strip_content:
                 if self._tag_replace:
-                    if (self._in_strip_content):
+                    if self._in_strip_content:
                         yield self._tag_replace
                 continue
             yield token
 
 
 def clean_strip_content(
-    text, tags=ALLOWED_TAGS, attributes=ALLOWED_ATTRIBUTES,
-    styles=ALLOWED_STYLES, protocols=ALLOWED_PROTOCOLS, strip=False,
-    strip_comments=True, filters=None,
+    text,
+    tags=ALLOWED_TAGS,
+    attributes=ALLOWED_ATTRIBUTES,
+    styles=ALLOWED_STYLES,
+    protocols=ALLOWED_PROTOCOLS,
+    strip=False,
+    strip_comments=True,
+    filters=None,
 ):
     """Clean an HTML fragment of malicious content and return it
 
@@ -125,17 +131,25 @@ def clean_strip_content(
 
     """
     cleaner = cleaner_factory__strip_content(
-        tags=tags, attributes=attributes,
-        styles=styles, protocols=protocols, strip=strip,
-        strip_comments=strip_comments, filters=filters,
+        tags=tags,
+        attributes=attributes,
+        styles=styles,
+        protocols=protocols,
+        strip=strip,
+        strip_comments=strip_comments,
+        filters=filters,
     )
     return cleaner.clean(text)
 
 
 def cleaner_factory__strip_content(
-    tags=ALLOWED_TAGS, attributes=ALLOWED_ATTRIBUTES,
-    styles=ALLOWED_STYLES, protocols=ALLOWED_PROTOCOLS, strip=False,
-    strip_comments=True, filters=None,
+    tags=ALLOWED_TAGS,
+    attributes=ALLOWED_ATTRIBUTES,
+    styles=ALLOWED_STYLES,
+    protocols=ALLOWED_PROTOCOLS,
+    strip=False,
+    strip_comments=True,
+    filters=None,
 ):
     """Factory for building a ``bleach.Cleaner`` instance designed to strip content.
 
@@ -148,7 +162,7 @@ def cleaner_factory__strip_content(
     tags = [t.lower() for t in tags]
     # ensure we apply the `TagTreeFilter` defined above
     if filters is None:
-        filters = [TagTreeFilter, ]
+        filters = [TagTreeFilter]
     # then adjust the tags based on the `tags_strip_content` of subclasses
     _has_approved_filter = False
     for f in filters:
@@ -172,8 +186,9 @@ def cleaner_factory__strip_content(
     return cleaner
 
 
-__all__ = ('TAG_TREE_TAGS',
-           'TagTreeFilter',
-           'clean_strip_content',
-           'cleaner_factory__strip_content',
-           )
+__all__ = (
+    "TAG_TREE_TAGS",
+    "TagTreeFilter",
+    "clean_strip_content",
+    "cleaner_factory__strip_content",
+)
