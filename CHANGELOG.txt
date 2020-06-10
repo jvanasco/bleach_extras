@@ -1,5 +1,6 @@
 0.0.4rc | unreleased
-	black formatting
+	- black formatting
+	- replaced outdated terms with more inclusive language
 
 0.0.3 | 2019.04.24
 	packaging fix: adding python3 classifier

@@ -158,7 +158,7 @@ def cleaner_factory__strip_content(
 
     :returns: ``bleach.Cleaner`` instance
     """
-    # whitelist the tags we want to strip, so they can be filtered out
+    # allowlist the tags we want to strip, so they can be filtered out
     tags = [t.lower() for t in tags]
     # ensure we apply the `TagTreeFilter` defined above
     if filters is None:
