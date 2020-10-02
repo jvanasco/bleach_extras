@@ -58,41 +58,90 @@ def test_interface_options():
     _input_iframe = 'foo.<div>bar.<script type="text/javascript">alert(1);<div>alpha.<style><div>beta.</style></div></script>bang.<iframe>IFRAME</iframe></div>biz'
 
     assert (
-        clean_strip_content(_input, tags=["div",],)
-        == cleaner_factory__strip_content(tags=["div",],).clean(_input)
-        == "foo.<div>bar.bang.</div>biz"
-    )
-    assert (
-        clean_strip_content(_input, tags=["div", "script", "style"],)
-        == cleaner_factory__strip_content(tags=["div", "script", "style",],).clean(
-            _input
-        )
-        == "foo.<div>bar.bang.</div>biz"
-    )
-    assert (
         clean_strip_content(
-            _input, tags=["div", "script", "style"], filters=[TagTreeFilter,]
+            _input,
+            tags=[
+                "div",
+            ],
         )
         == cleaner_factory__strip_content(
-            tags=["div", "script", "style",], filters=[TagTreeFilter,]
+            tags=[
+                "div",
+            ],
         ).clean(_input)
         == "foo.<div>bar.bang.</div>biz"
     )
     assert (
         clean_strip_content(
-            _input, tags=["div",], filters=[FilterTagTreeFilter_PlusiFrame,]
+            _input,
+            tags=["div", "script", "style"],
         )
         == cleaner_factory__strip_content(
-            tags=["div",], filters=[FilterTagTreeFilter_PlusiFrame,]
+            tags=[
+                "div",
+                "script",
+                "style",
+            ],
         ).clean(_input)
         == "foo.<div>bar.bang.</div>biz"
     )
     assert (
         clean_strip_content(
-            _input, tags=["div",], filters=[FilterTagTreeFilter_iFrame,]
+            _input,
+            tags=["div", "script", "style"],
+            filters=[
+                TagTreeFilter,
+            ],
         )
         == cleaner_factory__strip_content(
-            tags=["div",], filters=[FilterTagTreeFilter_iFrame,]
+            tags=[
+                "div",
+                "script",
+                "style",
+            ],
+            filters=[
+                TagTreeFilter,
+            ],
+        ).clean(_input)
+        == "foo.<div>bar.bang.</div>biz"
+    )
+    assert (
+        clean_strip_content(
+            _input,
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_PlusiFrame,
+            ],
+        )
+        == cleaner_factory__strip_content(
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_PlusiFrame,
+            ],
+        ).clean(_input)
+        == "foo.<div>bar.bang.</div>biz"
+    )
+    assert (
+        clean_strip_content(
+            _input,
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_iFrame,
+            ],
+        )
+        == cleaner_factory__strip_content(
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_iFrame,
+            ],
         ).clean(_input)
         == 'foo.<div>bar.&lt;script type="text/javascript"&gt;alert(1);<div>alpha.&lt;style&gt;<div>beta.&lt;/style&gt;</div>&lt;/script&gt;bang.</div>biz</div>'
     )
@@ -100,10 +149,21 @@ def test_interface_options():
     # what about nonstandard tags?
     assert (
         clean_strip_content(
-            _input_iframe, tags=["div", "script", "style"], filters=[TagTreeFilter,]
+            _input_iframe,
+            tags=["div", "script", "style"],
+            filters=[
+                TagTreeFilter,
+            ],
         )
         == cleaner_factory__strip_content(
-            tags=["div", "script", "style",], filters=[TagTreeFilter,]
+            tags=[
+                "div",
+                "script",
+                "style",
+            ],
+            filters=[
+                TagTreeFilter,
+            ],
         ).clean(_input_iframe)
         == "foo.<div>bar.bang.&lt;iframe&gt;IFRAME&lt;/iframe&gt;</div>biz"
     )
@@ -111,10 +171,19 @@ def test_interface_options():
         clean_strip_content(
             _input_iframe,
             tags=["div", "script", "style"],
-            filters=[FilterTagTreeFilter_PlusiFrame,],
+            filters=[
+                FilterTagTreeFilter_PlusiFrame,
+            ],
         )
         == cleaner_factory__strip_content(
-            tags=["div", "script", "style",], filters=[FilterTagTreeFilter_PlusiFrame,]
+            tags=[
+                "div",
+                "script",
+                "style",
+            ],
+            filters=[
+                FilterTagTreeFilter_PlusiFrame,
+            ],
         ).clean(_input_iframe)
         == "foo.<div>bar.bang.</div>biz"
     )
@@ -122,19 +191,39 @@ def test_interface_options():
         clean_strip_content(
             _input_iframe,
             tags=["div", "script", "style"],
-            filters=[FilterTagTreeFilter_iFrame,],
+            filters=[
+                FilterTagTreeFilter_iFrame,
+            ],
         )
         == cleaner_factory__strip_content(
-            tags=["div", "script", "style",], filters=[FilterTagTreeFilter_iFrame,]
+            tags=[
+                "div",
+                "script",
+                "style",
+            ],
+            filters=[
+                FilterTagTreeFilter_iFrame,
+            ],
         ).clean(_input_iframe)
         == "foo.<div>bar.<script>alert(1);<div>alpha.<style><div>beta.</style></div></script>bang.</div>biz"
     )
     assert (
         clean_strip_content(
-            _input_iframe, tags=["div",], filters=[FilterTagTreeFilter_iFrame,]
+            _input_iframe,
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_iFrame,
+            ],
         )
         == cleaner_factory__strip_content(
-            tags=["div",], filters=[FilterTagTreeFilter_iFrame,]
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_iFrame,
+            ],
         ).clean(_input_iframe)
         == 'foo.<div>bar.&lt;script type="text/javascript"&gt;alert(1);<div>alpha.&lt;style&gt;<div>beta.&lt;/style&gt;</div>&lt;/script&gt;bang.</div>biz</div>'
     )
@@ -142,11 +231,21 @@ def test_interface_options():
         clean_strip_content(
             _input_iframe,
             tags=["div", "script", "style"],
-            filters=[TagTreeFilter, FilterTagTreeFilter_iFrame,],
+            filters=[
+                TagTreeFilter,
+                FilterTagTreeFilter_iFrame,
+            ],
         )
         == cleaner_factory__strip_content(
-            tags=["div", "script", "style",],
-            filters=[TagTreeFilter, FilterTagTreeFilter_iFrame,],
+            tags=[
+                "div",
+                "script",
+                "style",
+            ],
+            filters=[
+                TagTreeFilter,
+                FilterTagTreeFilter_iFrame,
+            ],
         ).clean(_input_iframe)
         == "foo.<div>bar.bang.</div>biz"
     )
@@ -158,29 +257,75 @@ def test_strip_tags():
     _input_1 = 'foo.<div>bar.<script type="text/javascript">alert(1);</script>bar2.<script>alert(2);</script>bar3.<style>.body{}</style>bar4.<style tyle="text/css">.body{}</style>bar5.</div>biz'
 
     assert (
-        clean_strip_content(_input_1, tags=["div",])
-        == cleaner_factory__strip_content(tags=["div",],).clean(_input_1)
+        clean_strip_content(
+            _input_1,
+            tags=[
+                "div",
+            ],
+        )
+        == cleaner_factory__strip_content(
+            tags=[
+                "div",
+            ],
+        ).clean(_input_1)
         == "foo.<div>bar.bar2.bar3.bar4.bar5.</div>biz"
     )
     assert (
-        clean_strip_content(_input_1, tags=["div",], filters=[TagTreeFilter,])
+        clean_strip_content(
+            _input_1,
+            tags=[
+                "div",
+            ],
+            filters=[
+                TagTreeFilter,
+            ],
+        )
         == cleaner_factory__strip_content(
-            tags=["div",], filters=[TagTreeFilter,]
+            tags=[
+                "div",
+            ],
+            filters=[
+                TagTreeFilter,
+            ],
         ).clean(_input_1)
         == "foo.<div>bar.bar2.bar3.bar4.bar5.</div>biz"
     )
 
     assert (
-        clean_strip_content(_input_1, tags=["div",], strip=True)
-        == cleaner_factory__strip_content(tags=["div",], strip=True).clean(_input_1)
+        clean_strip_content(
+            _input_1,
+            tags=[
+                "div",
+            ],
+            strip=True,
+        )
+        == cleaner_factory__strip_content(
+            tags=[
+                "div",
+            ],
+            strip=True,
+        ).clean(_input_1)
         == "foo.<div>bar.bar2.bar3.bar4.bar5.</div>biz"
     )
     assert (
         clean_strip_content(
-            _input_1, tags=["div",], filters=[TagTreeFilter,], strip=True
+            _input_1,
+            tags=[
+                "div",
+            ],
+            filters=[
+                TagTreeFilter,
+            ],
+            strip=True,
         )
         == cleaner_factory__strip_content(
-            tags=["div",], filters=[TagTreeFilter,], strip=True
+            tags=[
+                "div",
+            ],
+            filters=[
+                TagTreeFilter,
+            ],
+            strip=True,
         ).clean(_input_1)
         == "foo.<div>bar.bar2.bar3.bar4.bar5.</div>biz"
     )
@@ -188,10 +333,21 @@ def test_strip_tags():
     # `style` is escaped, because it is not stripped or allowed
     assert (
         clean_strip_content(
-            _input_1, tags=["div",], filters=[FilterTagTreeFilter_SCRIPT,],
+            _input_1,
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_SCRIPT,
+            ],
         )
         == cleaner_factory__strip_content(
-            tags=["div",], filters=[FilterTagTreeFilter_SCRIPT,],
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_SCRIPT,
+            ],
         ).clean(_input_1)
         == 'foo.<div>bar.bar2.bar3.&lt;style&gt;.body{}&lt;/style&gt;bar4.&lt;style tyle="text/css"&gt;.body{}&lt;/style&gt;bar5.</div>biz'
     )
@@ -199,20 +355,44 @@ def test_strip_tags():
     # the `stle` content becomes plaintext
     assert (
         clean_strip_content(
-            _input_1, tags=["div",], filters=[FilterTagTreeFilter_SCRIPT,], strip=True
+            _input_1,
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_SCRIPT,
+            ],
+            strip=True,
         )
         == cleaner_factory__strip_content(
-            tags=["div",], filters=[FilterTagTreeFilter_SCRIPT,], strip=True
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_SCRIPT,
+            ],
+            strip=True,
         ).clean(_input_1)
         == "foo.<div>bar.bar2.bar3..body{}bar4..body{}bar5.</div>biz"
     )
 
     assert (
         clean_strip_content(
-            _input_1, tags=["div",], filters=[FilterTagTreeFilter_StYLe,]
+            _input_1,
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_StYLe,
+            ],
         )
         == cleaner_factory__strip_content(
-            tags=["div",], filters=[FilterTagTreeFilter_StYLe,],
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_StYLe,
+            ],
         ).clean(_input_1)
         == 'foo.<div>bar.&lt;script type="text/javascript"&gt;alert(1);&lt;/script&gt;bar2.&lt;script&gt;alert(2);&lt;/script&gt;bar3.bar4.bar5.</div>biz'
     )
@@ -220,10 +400,23 @@ def test_strip_tags():
     # the `script` content becomes plaintext
     assert (
         clean_strip_content(
-            _input_1, tags=["div",], filters=[FilterTagTreeFilter_StYLe,], strip=True
+            _input_1,
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_StYLe,
+            ],
+            strip=True,
         )
         == cleaner_factory__strip_content(
-            tags=["div",], filters=[FilterTagTreeFilter_StYLe,], strip=True
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_StYLe,
+            ],
+            strip=True,
         ).clean(_input_1)
         == "foo.<div>bar.alert(1);bar2.alert(2);bar3.bar4.bar5.</div>biz"
     )
@@ -234,38 +427,86 @@ def test_strip_tags():
 
     assert (
         clean_strip_content(
-            _input_2, tags=["div",], filters=[FilterTagTreeFilter_SCRIPT,],
+            _input_2,
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_SCRIPT,
+            ],
         )
         == cleaner_factory__strip_content(
-            tags=["div",], filters=[FilterTagTreeFilter_SCRIPT,],
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_SCRIPT,
+            ],
         ).clean(_input_2)
         == "foo.<div>bar.bang.</div>biz"
     )
     assert (
         clean_strip_content(
-            _input_2_b, tags=["div",], filters=[FilterTagTreeFilter_SCRIPT,],
+            _input_2_b,
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_SCRIPT,
+            ],
         )
         == cleaner_factory__strip_content(
-            tags=["div",], filters=[FilterTagTreeFilter_SCRIPT,],
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_SCRIPT,
+            ],
         ).clean(_input_2_b)
         == "foo.<div>bar.</div>"
     )
 
     assert (
         clean_strip_content(
-            _input_2, tags=["div",], filters=[FilterTagTreeFilter_SCRIPT,], strip=True
+            _input_2,
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_SCRIPT,
+            ],
+            strip=True,
         )
         == cleaner_factory__strip_content(
-            tags=["div",], filters=[FilterTagTreeFilter_SCRIPT,], strip=True
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_SCRIPT,
+            ],
+            strip=True,
         ).clean(_input_2)
         == "foo.<div>bar.bang.</div>biz"
     )
     assert (
         clean_strip_content(
-            _input_2_b, tags=["div",], filters=[FilterTagTreeFilter_SCRIPT,], strip=True
+            _input_2_b,
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_SCRIPT,
+            ],
+            strip=True,
         )
         == cleaner_factory__strip_content(
-            tags=["div",], filters=[FilterTagTreeFilter_SCRIPT,], strip=True
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_SCRIPT,
+            ],
+            strip=True,
         ).clean(_input_2_b)
         == "foo.<div>bar.</div>"
     )
@@ -277,27 +518,56 @@ def test_tag_replace():
     _input_1 = 'foo.<div>bar.<script type="text/javascript">alert(1);</script>bar2.<script>alert(2);</script>bar3.<style>.body{}</style>bar4.<style tyle="text/css">.body{}</style>bar5.</div>biz'
 
     assert (
-        clean_strip_content(_input_1, tags=["div",])
-        == cleaner_factory__strip_content(tags=["div",],).clean(_input_1)
+        clean_strip_content(
+            _input_1,
+            tags=[
+                "div",
+            ],
+        )
+        == cleaner_factory__strip_content(
+            tags=[
+                "div",
+            ],
+        ).clean(_input_1)
         == "foo.<div>bar.bar2.bar3.bar4.bar5.</div>biz"
     )
 
     assert (
         clean_strip_content(
-            _input_1, tags=["div",], filters=[FilterTagTreeFilter_Unsafe]
+            _input_1,
+            tags=[
+                "div",
+            ],
+            filters=[FilterTagTreeFilter_Unsafe],
         )
         == cleaner_factory__strip_content(
-            tags=["div",], filters=[FilterTagTreeFilter_Unsafe,]
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_Unsafe,
+            ],
         ).clean(_input_1)
         == "foo.<div>bar.&amp;lt;unsafe garbage/&amp;gt;bar2.&amp;lt;unsafe garbage/&amp;gt;bar3.&amp;lt;unsafe garbage/&amp;gt;bar4.&amp;lt;unsafe garbage/&amp;gt;bar5.</div>biz"
     )
 
     assert (
         clean_strip_content(
-            _input_1, tags=["div",], filters=[FilterTagTreeFilter_Unsafe], strip=True
+            _input_1,
+            tags=[
+                "div",
+            ],
+            filters=[FilterTagTreeFilter_Unsafe],
+            strip=True,
         )
         == cleaner_factory__strip_content(
-            tags=["div",], filters=[FilterTagTreeFilter_Unsafe,], strip=True
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_Unsafe,
+            ],
+            strip=True,
         ).clean(_input_1)
         == "foo.<div>bar.&amp;lt;unsafe garbage/&amp;gt;bar2.&amp;lt;unsafe garbage/&amp;gt;bar3.&amp;lt;unsafe garbage/&amp;gt;bar4.&amp;lt;unsafe garbage/&amp;gt;bar5.</div>biz"
     )
@@ -306,27 +576,56 @@ def test_tag_replace():
     _input_2 = 'foo.<div>bar.<script type="text/javascript">alert(1);<div>alpha.<style><div>beta.</style></div></script>bang.</div>biz'
 
     assert (
-        clean_strip_content(_input_2, tags=["div",])
-        == cleaner_factory__strip_content(tags=["div",],).clean(_input_2)
+        clean_strip_content(
+            _input_2,
+            tags=[
+                "div",
+            ],
+        )
+        == cleaner_factory__strip_content(
+            tags=[
+                "div",
+            ],
+        ).clean(_input_2)
         == "foo.<div>bar.bang.</div>biz"
     )
 
     assert (
         clean_strip_content(
-            _input_2, tags=["div",], filters=[FilterTagTreeFilter_Unsafe]
+            _input_2,
+            tags=[
+                "div",
+            ],
+            filters=[FilterTagTreeFilter_Unsafe],
         )
         == cleaner_factory__strip_content(
-            tags=["div",], filters=[FilterTagTreeFilter_Unsafe,]
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_Unsafe,
+            ],
         ).clean(_input_2)
         == "foo.<div>bar.&amp;lt;unsafe garbage/&amp;gt;bang.</div>biz"
     )
 
     assert (
         clean_strip_content(
-            _input_2, tags=["div",], filters=[FilterTagTreeFilter_Unsafe], strip=True
+            _input_2,
+            tags=[
+                "div",
+            ],
+            filters=[FilterTagTreeFilter_Unsafe],
+            strip=True,
         )
         == cleaner_factory__strip_content(
-            tags=["div",], filters=[FilterTagTreeFilter_Unsafe,], strip=True
+            tags=[
+                "div",
+            ],
+            filters=[
+                FilterTagTreeFilter_Unsafe,
+            ],
+            strip=True,
         ).clean(_input_2)
         == "foo.<div>bar.&amp;lt;unsafe garbage/&amp;gt;bang.</div>biz"
     )
@@ -341,7 +640,11 @@ def test_invalid():
         pass
 
     try:
-        cleaner = cleaner_factory__strip_content(filters=[str,])
+        cleaner = cleaner_factory__strip_content(
+            filters=[
+                str,
+            ]
+        )
         raise RuntimeError("The command above raise a ValueError")
     except ValueError as e:
         # expects ValueError: You must submit `TagTreeFilter` or a subclass as `filters`.
