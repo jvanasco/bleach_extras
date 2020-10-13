@@ -1,8 +1,11 @@
-0.0.4rc | unreleased
+0.0.5 | unreleased
+
+0.0.4 | 2020.10.13
 	- black formatting
 	- replaced outdated terms with more inclusive language
 	- upgraded black
 	- using pre-commit
+	- bleach requires 3.2.1 to deal with security issues and regressions/changes affecting the test cases
 
 0.0.3 | 2019.04.24
 	packaging fix: adding python3 classifier

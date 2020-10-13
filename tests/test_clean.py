@@ -187,6 +187,10 @@ def test_interface_options():
         ).clean(_input_iframe)
         == "foo.<div>bar.bang.</div>biz"
     )
+
+    # Starting in bleach 3.1.1, html entities within <script> tags are escaped>
+    # - "foo.<div>bar.<script>alert(1);<div>alpha.<style><div>beta.</style></div></script>bang.</div>biz"
+    # + "foo.<div>bar.<script>alert(1);&lt;div&gt;alpha.&lt;style&gt;&lt;div&gt;beta.&lt;/style&gt;&lt;/div&gt;</script>bang.</div>biz"
     assert (
         clean_strip_content(
             _input_iframe,
@@ -205,7 +209,7 @@ def test_interface_options():
                 FilterTagTreeFilter_iFrame,
             ],
         ).clean(_input_iframe)
-        == "foo.<div>bar.<script>alert(1);<div>alpha.<style><div>beta.</style></div></script>bang.</div>biz"
+        == "foo.<div>bar.<script>alert(1);&lt;div&gt;alpha.&lt;style&gt;&lt;div&gt;beta.&lt;/style&gt;&lt;/div&gt;</script>bang.</div>biz"
     )
     assert (
         clean_strip_content(

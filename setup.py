@@ -8,11 +8,17 @@ here = os.path.abspath(os.path.dirname(__file__))
 README = open(os.path.join(here, "README.md")).read()
 README = README.split("\n\n", 1)[0] + "\n"
 
-install_requires = ["bleach"]
+install_requires = ["bleach>=3.2.1"]
 tests_require = ["pytest>=3.0.0"]
-testing_extras = tests_require + [
-    "pytest",
-]
+testing_extras = (
+    install_requires
+    + tests_require
+    + [
+        "pytest-wholenodeid",
+        "flake8",
+        "tox",
+    ]
+)
 
 
 def get_version():

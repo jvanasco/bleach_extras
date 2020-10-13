@@ -5,6 +5,7 @@ pytest
 pytest-wholenodeid
 flake8
 tox
+bleach>=3.2.1
 
 # Requirements for building docs
 Sphinx
