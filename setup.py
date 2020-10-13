@@ -8,9 +8,11 @@ here = os.path.abspath(os.path.dirname(__file__))
 README = open(os.path.join(here, "README.md")).read()
 README = README.split("\n\n", 1)[0] + "\n"
 
-tests_require = ["pytest>=3.0.0"]
-
 install_requires = ["bleach"]
+tests_require = ["pytest>=3.0.0"]
+testing_extras = tests_require + [
+    "pytest",
+]
 
 
 def get_version():
@@ -38,6 +40,9 @@ setup(
     python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*",
     install_requires=install_requires,
     tests_require=tests_require,
+    extras_require={
+        "testing": testing_extras,
+    },
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python",
