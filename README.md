@@ -1,3 +1,5 @@
+![Python package](https://github.com/jvanasco/bleach_extras/workflows/Python%20package/badge.svg)
+
 `bleach_extras` is a package of *unofficial* "extras" and utilities paired for use with the `bleach` library.
 
 The first utility is `TagTreeFilter` which is utilized by `clean_strip_content` and `cleaner_factory__strip_content`.
