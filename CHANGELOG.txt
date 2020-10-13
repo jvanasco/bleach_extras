@@ -6,6 +6,7 @@
 	- upgraded black
 	- using pre-commit
 	- bleach requires 3.2.1 to deal with security issues and regressions/changes affecting the test cases
+	- dropped 3.5 support; supports python 2.7; 3.6/3.7/3.8
 
 0.0.3 | 2019.04.24
 	packaging fix: adding python3 classifier
