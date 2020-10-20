@@ -6,7 +6,6 @@ from setuptools import find_packages
 
 here = os.path.abspath(os.path.dirname(__file__))
 README = open(os.path.join(here, "README.md")).read()
-README = README.split("\n\n", 1)[0] + "\n"
 
 install_requires = ["bleach>=3.2.1"]
 tests_require = ["pytest>=3.0.0"]
@@ -37,8 +36,9 @@ setup(
     license="MIT License",
     description="some extensions for bleach",
     long_description=README,
+    long_description_content_type="text/markdown",
     zip_safe=False,
-    keywords="",
+    keywords="bleach html-sanitizing",
     test_suite="tests",
     packages=find_packages(),
     include_package_data=True,
