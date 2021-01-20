@@ -4,8 +4,10 @@ import re
 from setuptools import setup
 from setuptools import find_packages
 
-here = os.path.abspath(os.path.dirname(__file__))
-README = open(os.path.join(here, "README.md")).read()
+HERE = os.path.abspath(os.path.dirname(__file__))
+long_description = description = "some extensions for bleach"
+with open(os.path.join(HERE, "README.md")) as fp:
+    long_description = fp.read()
 
 install_requires = ["bleach>=3.2.1"]
 tests_require = ["pytest>=3.0.0"]
@@ -34,8 +36,8 @@ setup(
     author_email="jonathan@findmeon.com",
     url="http://github.com/jvanasco/bleach_extras",
     license="MIT License",
-    description="some extensions for bleach",
-    long_description=README,
+    description=description,
+    long_description=long_description,
     long_description_content_type="text/markdown",
     zip_safe=False,
     keywords="bleach html-sanitizing",
