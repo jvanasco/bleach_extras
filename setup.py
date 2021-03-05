@@ -45,7 +45,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     package_data={"": ["README.md"]},
-    python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, , !=3.5.*",
+    python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*",
     install_requires=install_requires,
     tests_require=tests_require,
     extras_require={

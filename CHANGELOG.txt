@@ -1,3 +1,6 @@
+unreleased
+	- removed empty list item from setup.py [fixes #3]
+
 0.1.0 | 2020.10.20
 	- packaging fix
 
