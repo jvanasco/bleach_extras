@@ -23,7 +23,7 @@ testing_extras = (
 
 
 def get_version():
-    fn = os.path.join("bleach_extras", "__init__.py")
+    fn = os.path.join("src", "bleach_extras", "__init__.py")
     vsre = r"""^__version__ = ['"]([^'"]*)['"]"""
     version_file = codecs.open(fn, mode="r", encoding="utf-8").read()
     return re.search(vsre, version_file, re.M).group(1)
@@ -42,9 +42,11 @@ setup(
     zip_safe=False,
     keywords="bleach html-sanitizing",
     test_suite="tests",
-    packages=find_packages(),
+    packages=find_packages(
+        where="src",
+    ),
+    package_dir={"": "src"},
     include_package_data=True,
-    package_data={"": ["README.md"]},
     python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*",
     install_requires=install_requires,
     tests_require=tests_require,
