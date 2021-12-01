@@ -1,11 +1,9 @@
 from bleach.html5lib_shim import Filter
-from bleach.sanitizer import (
-    ALLOWED_ATTRIBUTES,
-    ALLOWED_PROTOCOLS,
-    ALLOWED_STYLES,
-    ALLOWED_TAGS,
-    Cleaner,
-)
+from bleach.sanitizer import ALLOWED_ATTRIBUTES
+from bleach.sanitizer import ALLOWED_PROTOCOLS
+from bleach.sanitizer import ALLOWED_STYLES
+from bleach.sanitizer import ALLOWED_TAGS
+from bleach.sanitizer import Cleaner
 from six import text_type
 
 
@@ -26,11 +24,11 @@ class TagTreeFilter(Filter):
             tag_replace_string = '&lt;unsafe/&gt;'
     """
 
-    """a list of tags which should be stripped along with their content/children."""
+    "a list of tags which should be stripped along with their content/children."
     tags_strip_content = TAG_TREE_TAGS
     _tags_strip_content = None  # memoized on __init__
 
-    """if defined in a subclass, a string to replace the content with."""
+    "if defined in a subclass, a string to replace the content with."
     tag_replace_string = None
     _tag_replace = None  # memoized on __init__
 
@@ -81,14 +79,15 @@ def clean_strip_content(
     strip_comments=True,
     filters=None,
 ):
-    """Clean an HTML fragment of malicious content and return it
+    """
+    Clean an HTML fragment of malicious content and return it
 
     This function is paired to `bleach.clean` and the only intended difference
     is to support the concept of stripping the content of tags, and not just the
     tag itself.
 
-    # The below docstrings were taken from bleach https://github.com/mozilla/bleach
-    # bleach is covered by the Apache License, Version 2.0
+    The below docstrings were taken from bleach https://github.com/mozilla/bleach
+    bleach is covered by the Apache License, Version 2.0
 
     .. Note::
 
@@ -99,36 +98,37 @@ def clean_strip_content(
     :arg str text: the text to clean
 
     :arg list tags: allowed list of tags; defaults to
-        ``bleach.sanitizer.ALLOWED_TAGS``
+      ``bleach.sanitizer.ALLOWED_TAGS``
 
     :arg dict attributes: allowed attributes; can be a callable, list or dict;
-        defaults to ``bleach.sanitizer.ALLOWED_ATTRIBUTES``
+      defaults to ``bleach.sanitizer.ALLOWED_ATTRIBUTES``
 
     :arg list styles: allowed list of css styles; defaults to
-        ``bleach.sanitizer.ALLOWED_STYLES``
+      ``bleach.sanitizer.ALLOWED_STYLES``
 
     :arg list protocols: allowed list of protocols for links; defaults
-        to ``bleach.sanitizer.ALLOWED_PROTOCOLS``
+      to ``bleach.sanitizer.ALLOWED_PROTOCOLS``
 
     :arg bool strip: whether or not to strip disallowed elements
 
     :arg bool strip_comments: whether or not to strip HTML comments
 
-    :arg list filters: list of html5lib Filter classes to pass streamed content through
-        If ``None``, an instance of ``TagTreeFilter`` will be used; otherwise at
-        least one element in the list must be ``TagTreeFilter`` or a subclass of it.
+    :arg list filters: list of html5lib Filter classes to pass streamed content
+      through. If ``None``, an instance of ``TagTreeFilter`` will be used;
+      otherwise at least one element in the list must be ``TagTreeFilter`` or a
+      subclass of it.
 
-        .. seealso:: http://html5lib.readthedocs.io/en/latest/movingparts.html#filters
+      .. seealso:: http://html5lib.readthedocs.io/en/latest/movingparts.html#filters
 
-        .. Warning::
+      .. Warning::
 
-           Using filters changes the output of ``bleach.Cleaner.clean``.
-           Make sure the way the filters change the output are secure.
+          Using filters changes the output of ``bleach.Cleaner.clean``.
+          Make sure the way the filters change the output are secure.
 
-    To adjust the tags to strip, submit subclasses of ``TagTreeFilter`` to ``filters``.
+    To adjust the tags to strip, submit subclasses of ``TagTreeFilter``
+    to ``filters``.
 
     :returns: cleaned text as unicode
-
     """
     cleaner = cleaner_factory__strip_content(
         tags=tags,
@@ -151,7 +151,9 @@ def cleaner_factory__strip_content(
     strip_comments=True,
     filters=None,
 ):
-    """Factory for building a ``bleach.Cleaner`` instance designed to strip content.
+    """
+    Factory for building a ``bleach.Cleaner`` instance designed to
+    strip content.
 
     The accepts the same arguments as ``clean_strip_content`` except for the
     initial `text` argument.

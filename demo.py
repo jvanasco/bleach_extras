@@ -1,7 +1,12 @@
-from future import __print_function__
+from __future__ import print_function
 
+# pypi
 import bleach
+
+# local
 import bleach_extras
+
+# ==============================================================================
 
 dangerous = """foo.<div>1<script>alert("ur komputer hs VIRUS! Giv me ur BITCOIN in 24 hours! Wallet is: abdefg!");</script>2</div>.bar"""
 
