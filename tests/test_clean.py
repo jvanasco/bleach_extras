@@ -1,9 +1,11 @@
-from bleach_extras import clean_strip_content
-from bleach_extras import TagTreeFilter
-from bleach_extras import cleaner_factory__strip_content
-from bleach_extras import TAG_TREE_TAGS
+# pypi
 from bleach.sanitizer import Cleaner
 
+# local
+from bleach_extras import clean_strip_content
+from bleach_extras import cleaner_factory__strip_content
+from bleach_extras import TAG_TREE_TAGS
+from bleach_extras import TagTreeFilter
 
 # ==============================================================================
 
@@ -36,7 +38,7 @@ class FilterTagTreeFilter_Unsafe(TagTreeFilter):
     tag_replace_string = "&lt;unsafe garbage/&gt;"
 
 
-# ==============================================================================
+# ------------------------------------------------------------------------------
 
 
 def test_factory():
@@ -639,7 +641,7 @@ def test_invalid():
     try:
         cleaner = cleaner_factory__strip_content(filters=[])
         raise RuntimeError("The command above should raise a ValueError")
-    except ValueError as e:
+    except ValueError as exc:  # noqa: F841
         # expects ValueError: You must submit `TagTreeFilter` or a subclass as `filters`.
         pass
 
@@ -650,6 +652,6 @@ def test_invalid():
             ]
         )
         raise RuntimeError("The command above raise a ValueError")
-    except ValueError as e:
+    except ValueError as exc:  # noqa: F841
         # expects ValueError: You must submit `TagTreeFilter` or a subclass as `filters`.
         pass

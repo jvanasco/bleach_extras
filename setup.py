@@ -1,8 +1,14 @@
+# stdlib
 import codecs
 import os
 import re
-from setuptools import setup
+
+# pypi
 from setuptools import find_packages
+from setuptools import setup
+
+# ==============================================================================
+
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 long_description = description = "some extensions for bleach"
