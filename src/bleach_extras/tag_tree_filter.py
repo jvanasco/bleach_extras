@@ -1,10 +1,20 @@
+# stdlib
+from typing import Any
+from typing import Callable
+from typing import Container
+from typing import Dict
+from typing import Iterable
+from typing import List
+from typing import Optional
+from typing import Union
+
+# pypi
 from bleach.html5lib_shim import Filter
 from bleach.sanitizer import ALLOWED_ATTRIBUTES
 from bleach.sanitizer import ALLOWED_PROTOCOLS
-from bleach.sanitizer import ALLOWED_STYLES
+from bleach.sanitizer import ALLOWED_STYLES  # type: ignore[attr-defined]  # stubs are 5+
 from bleach.sanitizer import ALLOWED_TAGS
 from bleach.sanitizer import Cleaner
-from six import text_type
 
 
 # ==============================================================================
@@ -32,25 +42,28 @@ class TagTreeFilter(Filter):
     tag_replace_string = None
     _tag_replace = None  # memoized on __init__
 
-    def __init__(self, source):
+    def __init__(
+        self,
+        source: Any,
+    ):
         """
         Creates a TagTreeFilter instance.
 
         This instance will strip the tag and the content tree of tags appearing
         in ``tags_strip_content``.
 
-        :arg Treewalker source: stream
+        :arg source: the source token stream
         """
         if not self.tags_strip_content:
             raise ValueError("must have `tags_strip_content` on the class")
         self._tags_strip_content = [t.lower() for t in self.tags_strip_content]
         if self.tag_replace_string is not None:
             self._tag_replace = {
-                "data": text_type(self.tag_replace_string),
+                "data": self.tag_replace_string,
                 "type": "Characters",
             }
         self._in_strip_content = 0
-        return super(TagTreeFilter, self).__init__(source)
+        return super(TagTreeFilter, self).__init__(source)  # type: ignore[call-arg]  # stubs are 5+
 
     def __iter__(self):
         for token in Filter.__iter__(self):
@@ -70,15 +83,21 @@ class TagTreeFilter(Filter):
 
 
 def clean_strip_content(
-    text,
-    tags=ALLOWED_TAGS,
-    attributes=ALLOWED_ATTRIBUTES,
-    styles=ALLOWED_STYLES,
-    protocols=ALLOWED_PROTOCOLS,
-    strip=False,
-    strip_comments=True,
-    filters=None,
-):
+    text: str,
+    tags: Iterable[str] = ALLOWED_TAGS,
+    attributes: Union[
+        Callable[[str, str, str], bool],
+        Dict[str, Union[List[str], Callable[[str, str, str], bool]]],
+        Dict[str, List[str]],
+        Dict[str, Callable[[str, str, str], bool]],
+        List[str],
+    ] = ALLOWED_ATTRIBUTES,
+    styles: Container[str] = ALLOWED_STYLES,
+    protocols: Container[str] = ALLOWED_PROTOCOLS,
+    strip: bool = False,
+    strip_comments: bool = True,
+    filters: Optional[Any] = None,
+) -> str:
     """
     Clean an HTML fragment of malicious content and return it
 
@@ -143,14 +162,20 @@ def clean_strip_content(
 
 
 def cleaner_factory__strip_content(
-    tags=ALLOWED_TAGS,
-    attributes=ALLOWED_ATTRIBUTES,
-    styles=ALLOWED_STYLES,
-    protocols=ALLOWED_PROTOCOLS,
-    strip=False,
-    strip_comments=True,
-    filters=None,
-):
+    tags: Iterable[str] = ALLOWED_TAGS,
+    attributes: Union[
+        Callable[[str, str, str], bool],
+        Dict[str, Union[List[str], Callable[[str, str, str], bool]]],
+        Dict[str, List[str]],
+        Dict[str, Callable[[str, str, str], bool]],
+        List[str],
+    ] = ALLOWED_ATTRIBUTES,
+    styles: Container[str] = ALLOWED_STYLES,
+    protocols: Container[str] = ALLOWED_PROTOCOLS,
+    strip: bool = False,
+    strip_comments: bool = True,
+    filters: Optional[Any] = None,
+) -> Cleaner:
     """
     Factory for building a ``bleach.Cleaner`` instance designed to
     strip content.

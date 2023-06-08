@@ -23,7 +23,9 @@ testing_extras = (
     + [
         "pytest-wholenodeid",
         "flake8",
+        "mypy",
         "tox",
+        "types-bleach<5",
     ]
 )
 

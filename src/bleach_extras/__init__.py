@@ -11,7 +11,7 @@ from .tag_tree_filter import TagTreeFilter  # noqa: F401
 
 
 # yyyymmdd
-__releasedate__ = "20220519"
+__releasedate__ = "20230608"
 # x.y.z or x.y.z.dev0 -- semver
-__version__ = "0.1.3"
+__version__ = "0.2.0"
 VERSION = parse_version(__version__)
