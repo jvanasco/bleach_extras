@@ -54,6 +54,7 @@ setup(
         where="src",
     ),
     package_dir={"": "src"},
+    package_data={"bleach_extras": ["py.typed"]},
     include_package_data=True,
     install_requires=install_requires,
     tests_require=tests_require,
