@@ -46,8 +46,7 @@ def test_factory():
     assert isinstance(cleaner, Cleaner)
     for tag in TAG_TREE_TAGS:
         assert tag in cleaner.tags
-    assert TagTreeFilter in cleaner.filters
-    assert len(cleaner.filters) == 1
+    assert list(cleaner.filters) == [TagTreeFilter]
     # run it twice
     assert cleaner.clean("<div>foo</div>") == "&lt;div&gt;foo&lt;/div&gt;"
     assert cleaner.clean("<div>foo</div>") == "&lt;div&gt;foo&lt;/div&gt;"
@@ -660,15 +659,24 @@ def test_invalid():
 def test_css_sanitizer():
     from bleach.css_sanitizer import CSSSanitizer
 
-    options = dict(
-        tags=["p"],
-        attributes={"p": ["style"]},
-        css_sanitizer=CSSSanitizer(allowed_css_properties=["color"]),
-    )
+    sanitizer = CSSSanitizer(allowed_css_properties=["color"])
     fragment = '<p style="color: red; position: fixed">Hello<script>bad()</script></p>'
     expected = '<p style="color: red;">Hello</p>'
-    assert clean_strip_content(fragment, **options) == expected
-    assert cleaner_factory__strip_content(**options).clean(fragment) == expected
+    assert (
+        clean_strip_content(
+            fragment,
+            tags=["p"],
+            attributes={"p": ["style"]},
+            css_sanitizer=sanitizer,
+        )
+        == expected
+    )
+    cleaner = cleaner_factory__strip_content(
+        tags=["p"],
+        attributes={"p": ["style"]},
+        css_sanitizer=sanitizer,
+    )
+    assert cleaner.clean(fragment) == expected
 
 
 def test_style_without_css_sanitizer():

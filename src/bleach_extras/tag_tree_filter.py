@@ -5,6 +5,7 @@ from typing import Dict
 from typing import Iterable
 from typing import List
 from typing import Optional
+from typing import Sequence
 from typing import Union
 
 # pypi
@@ -32,11 +33,10 @@ class TagTreeFilter(Filter):
     """
 
     "a list of tags which should be stripped along with their content/children."
-    tags_strip_content = TAG_TREE_TAGS
-    _tags_strip_content = None  # memoized on __init__
+    tags_strip_content: Sequence[str] = TAG_TREE_TAGS
 
     "if defined in a subclass, a string to replace the content with."
-    tag_replace_string = None
+    tag_replace_string: Optional[str] = None
     _tag_replace = None  # memoized on __init__
 
     def __init__(
