@@ -6,12 +6,36 @@ use with the `bleach` library.
 The first utility is `TagTreeFilter` which is utilized by `clean_strip_content`
 and `cleaner_factory__strip_content`.
 
-# Compatability
+# Compatibility
 
-`bleach_extras` currently requires `bleach>=3.2.1` and `bleach<5`.
-Earlier versions of `bleach` have security concerns; latter versions are not
-compatible due to API changes (future support is planned).
+`bleach_extras` requires Python 3.10+ and Bleach 6.4.x.
+Bleach 6.4.0 is the final upstream release; Bleach is no longer maintained,
+including security fixes. See the [upstream notice](https://github.com/mozilla/bleach/issues/698).
 
+## Migrating from 0.2.x
+
+The `styles` argument has been replaced by `css_sanitizer`, matching modern
+Bleach. Update positional calls to use keywords for `protocols`, `strip`,
+`strip_comments`, and `filters`.
+
+For inline CSS, install `bleach_extras[css]` and pass a `CSSSanitizer`:
+
+```python
+from bleach.css_sanitizer import CSSSanitizer
+from bleach_extras import clean_strip_content
+
+cleaned = clean_strip_content(
+    '<p style="color: red; position: fixed">Hello</p>',
+    tags=["p"],
+    attributes={"p": ["style"]},
+    css_sanitizer=CSSSanitizer(allowed_css_properties=["color"]),
+)
+# <p style="color: red;">Hello</p>
+```
+
+Without a CSS sanitizer, Bleach empties allowed `style` attributes and emits
+`NoCssSanitizerWarning`. The default filter still removes `<style>` elements
+and their contents.
 
 # `TagTreeFilter`, `clean_strip_content`, `cleaner_factory__strip_content`
 
@@ -101,3 +125,19 @@ covered!
 	print bleach_extras.clean_strip_content(dangerous2, tags=['div', ], filters=[IFrameFilter2, ])
 	# foo.<div>1&amp;lt;unsafe garbage/&amp;gt;2</div>.bar
 
+
+## Development configuration
+
+Package metadata, dependencies, extras, Flake8, and tox environments are defined
+in `setup.cfg`. Build settings, Black, pytest, and mypy are configured in
+`pyproject.toml`. The package version comes from `bleach_extras.__version__`.
+
+```sh
+python -m pip install -e '.[testing]'
+python -m pytest
+python -m mypy
+python -m tox
+python -m build
+```
+
+Install `requirements-dev.txt` for the testing, documentation, and release tools.

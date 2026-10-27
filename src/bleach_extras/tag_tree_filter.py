@@ -1,7 +1,6 @@
 # stdlib
 from typing import Any
 from typing import Callable
-from typing import Container
 from typing import Dict
 from typing import Iterable
 from typing import List
@@ -9,13 +8,11 @@ from typing import Optional
 from typing import Union
 
 # pypi
-from bleach.html5lib_shim import Filter
+from bleach.html5lib_shim import Filter  # type: ignore[attr-defined]  # missing in stubs
 from bleach.sanitizer import ALLOWED_ATTRIBUTES
 from bleach.sanitizer import ALLOWED_PROTOCOLS
-from bleach.sanitizer import ALLOWED_STYLES  # type: ignore[attr-defined]  # stubs are 5+
 from bleach.sanitizer import ALLOWED_TAGS
 from bleach.sanitizer import Cleaner
-
 
 # ==============================================================================
 
@@ -63,7 +60,7 @@ class TagTreeFilter(Filter):
                 "type": "Characters",
             }
         self._in_strip_content = 0
-        return super(TagTreeFilter, self).__init__(source)  # type: ignore[call-arg]  # stubs are 5+
+        super().__init__(source)
 
     def __iter__(self):
         for token in Filter.__iter__(self):
@@ -92,11 +89,11 @@ def clean_strip_content(
         Dict[str, Callable[[str, str, str], bool]],
         List[str],
     ] = ALLOWED_ATTRIBUTES,
-    styles: Container[str] = ALLOWED_STYLES,
-    protocols: Container[str] = ALLOWED_PROTOCOLS,
+    protocols: Iterable[str] = ALLOWED_PROTOCOLS,
     strip: bool = False,
     strip_comments: bool = True,
     filters: Optional[Any] = None,
+    css_sanitizer: Optional[Any] = None,
 ) -> str:
     """
     Clean an HTML fragment of malicious content and return it
@@ -122,8 +119,8 @@ def clean_strip_content(
     :arg dict attributes: allowed attributes; can be a callable, list or dict;
       defaults to ``bleach.sanitizer.ALLOWED_ATTRIBUTES``
 
-    :arg list styles: allowed list of css styles; defaults to
-      ``bleach.sanitizer.ALLOWED_STYLES``
+    :arg css_sanitizer: optional sanitizer with a ``sanitize_css`` method,
+      such as ``bleach.css_sanitizer.CSSSanitizer``. Requires ``bleach[css]``.
 
     :arg list protocols: allowed list of protocols for links; defaults
       to ``bleach.sanitizer.ALLOWED_PROTOCOLS``
@@ -152,7 +149,7 @@ def clean_strip_content(
     cleaner = cleaner_factory__strip_content(
         tags=tags,
         attributes=attributes,
-        styles=styles,
+        css_sanitizer=css_sanitizer,
         protocols=protocols,
         strip=strip,
         strip_comments=strip_comments,
@@ -170,11 +167,11 @@ def cleaner_factory__strip_content(
         Dict[str, Callable[[str, str, str], bool]],
         List[str],
     ] = ALLOWED_ATTRIBUTES,
-    styles: Container[str] = ALLOWED_STYLES,
-    protocols: Container[str] = ALLOWED_PROTOCOLS,
+    protocols: Iterable[str] = ALLOWED_PROTOCOLS,
     strip: bool = False,
     strip_comments: bool = True,
     filters: Optional[Any] = None,
+    css_sanitizer: Optional[Any] = None,
 ) -> Cleaner:
     """
     Factory for building a ``bleach.Cleaner`` instance designed to
@@ -204,7 +201,7 @@ def cleaner_factory__strip_content(
     cleaner = Cleaner(
         tags=tags,
         attributes=attributes,
-        styles=styles,
+        css_sanitizer=css_sanitizer,
         protocols=protocols,
         strip=strip,
         strip_comments=strip_comments,

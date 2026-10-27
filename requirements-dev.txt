@@ -1,14 +1,1 @@
--e .
-
-# Requirements to run the test suite
-pytest
-pytest-wholenodeid
-flake8
-tox
-bleach>=3.2.1
-
-# Requirements for building docs
-Sphinx
-
-# Requirements for updating package
-twine
+-e .[testing,docs,release]

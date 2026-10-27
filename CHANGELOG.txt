@@ -1,9 +1,16 @@
+Unreleased
+    - move package metadata and tox into setup.cfg; configure pytest and mypy in pyproject.toml
+    - require Python 3.10+ and Bleach 6.4.x
+    - replace styles with css_sanitizer; add the css installation extra
+    - replace pkg_resources with packaging for version parsing
+    - modernize builds and the Python test matrix
+
 0.2.1 | 20230609
     - added py.typed
 
 0.2.0 | 20230608
     - drop python 2.6
-    - mpy
+    - mypy
 
 0.1.3 | 20220519
 	- version pinning against bleach <5 because of incompatibilities

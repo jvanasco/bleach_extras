@@ -1,5 +1,5 @@
 # pypi
-from pkg_resources import parse_version
+from packaging.version import parse as parse_version
 
 # local
 from .tag_tree_filter import clean_strip_content  # noqa: F401
