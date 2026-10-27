@@ -16,7 +16,6 @@ from bleach.sanitizer import ALLOWED_STYLES  # type: ignore[attr-defined]  # stu
 from bleach.sanitizer import ALLOWED_TAGS
 from bleach.sanitizer import Cleaner
 
-
 # ==============================================================================
 
 
@@ -91,6 +90,7 @@ def clean_strip_content(
         Dict[str, List[str]],
         Dict[str, Callable[[str, str, str], bool]],
         List[str],
+        Dict,  # for empty dicts
     ] = ALLOWED_ATTRIBUTES,
     styles: Container[str] = ALLOWED_STYLES,
     protocols: Container[str] = ALLOWED_PROTOCOLS,
@@ -169,6 +169,7 @@ def cleaner_factory__strip_content(
         Dict[str, List[str]],
         Dict[str, Callable[[str, str, str], bool]],
         List[str],
+        Dict,  # for empty dicts
     ] = ALLOWED_ATTRIBUTES,
     styles: Container[str] = ALLOWED_STYLES,
     protocols: Container[str] = ALLOWED_PROTOCOLS,

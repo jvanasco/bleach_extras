@@ -1,3 +1,6 @@
+0.2.2 | 
+    - updated typing
+
 0.2.1 | 20230609
     - added py.typed
 
