@@ -655,3 +655,47 @@ def test_invalid():
     except ValueError as exc:  # noqa: F841
         # expects ValueError: You must submit `TagTreeFilter` or a subclass as `filters`.
         pass
+
+
+def test_css_sanitizer():
+    from bleach.css_sanitizer import CSSSanitizer
+
+    options = dict(
+        tags=["p"],
+        attributes={"p": ["style"]},
+        css_sanitizer=CSSSanitizer(allowed_css_properties=["color"]),
+    )
+    fragment = '<p style="color: red; position: fixed">Hello<script>bad()</script></p>'
+    expected = '<p style="color: red;">Hello</p>'
+    assert clean_strip_content(fragment, **options) == expected
+    assert cleaner_factory__strip_content(**options).clean(fragment) == expected
+
+
+def test_style_without_css_sanitizer():
+    import pytest
+    from bleach.sanitizer import NoCssSanitizerWarning
+
+    with pytest.warns(NoCssSanitizerWarning):
+        assert (
+            clean_strip_content(
+                '<p style="color: red">Hello</p>',
+                tags=["p"],
+                attributes={"p": ["style"]},
+            )
+            == '<p style="">Hello</p>'
+        )
+
+
+def test_sanitization_options():
+    fragment = '<!-- comment --><a href="javascript:alert(1)" onclick="bad()">link</a><script>bad()</script>'
+    assert clean_strip_content(fragment) == "<a>link</a>"
+    assert (
+        clean_strip_content(
+            '<a href="https://example.com">link</a><!-- keep --><em>text</em>',
+            tags=["a"],
+            protocols=["https"],
+            strip=True,
+            strip_comments=False,
+        )
+        == '<a href="https://example.com">link</a><!-- keep -->text'
+    )
