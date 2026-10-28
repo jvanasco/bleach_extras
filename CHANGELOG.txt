@@ -1,4 +1,4 @@
-Unreleased
+1.0.0 | 20261027
     - move package metadata and tox into setup.cfg; configure pytest and mypy in pyproject.toml
     - require Python 3.10+ and Bleach 6.4.x
     - replace styles with css_sanitizer; add the css installation extra
